@@ -117,11 +117,65 @@ public class ScoreWord {
 	 * 
 	 */
 	private int CalculateWordScore() {
-		//TODO: Calculate the Word's score
 		int iTotalScore = 0;
-
+		int wordscoremultiplier = 1;
+		if (moveType == eMoveType.HORIZONTAL) {
+			int row = minSpace.getRow();
+			int wordLength = word.getWord().length();
+			for (int index = 0; index < wordLength; index++) {
+				int col = minSpace.getCol() + index;
+				Letter letter = new Letter(word.getWord().charAt(index));
+				Space space = board.getPuzzle()[row][col];
+				BonusSquare bonusSquare = space.getBonusSquare();
+				int letterScore = letter.getiScore();
+				if (bonusSquare != null && !bonusSquare.isUsed()) {
+					eBonusType bonusType = bonusSquare.getBonusType();
+					if (bonusType == eBonusType.DoubleLetter) {
+						letterScore *= 2;
+					}
+					if (bonusType == eBonusType.TripleLetter) {
+						letterScore *= 3;
+					}
+					if (bonusType == eBonusType.DoubleWord || bonusType == eBonusType.Star) {
+						wordscoremultiplier *= 2;
+					}
+					if (bonusType == eBonusType.TripleWord) {
+						wordscoremultiplier *= 3;
+					}
+				}
+				iTotalScore += letterScore;
+			}
+		} else {
+			int col = minSpace.getCol();
+			int wordLength = word.getWord().length();
+			for (int index = 0; index < wordLength; index++) {
+				int row = minSpace.getRow() + index;
+				Letter letter = new Letter(word.getWord().charAt(index));
+				Space space = board.getPuzzle()[row][col];
+				BonusSquare bonusSquare = space.getBonusSquare();
+				int letterScore = letter.getiScore();
+				if (bonusSquare != null && !bonusSquare.isUsed()) {
+					eBonusType bonusType = bonusSquare.getBonusType();
+					if (bonusType == eBonusType.DoubleLetter) {
+						letterScore *= 2;
+					}
+					if (bonusType == eBonusType.TripleLetter) {
+						letterScore *= 3;
+					}
+					if (bonusType == eBonusType.DoubleWord || bonusType == eBonusType.Star) {
+						wordscoremultiplier *= 2;
+					}
+					if (bonusType == eBonusType.TripleWord) {
+						wordscoremultiplier *= 3;
+					}
+				}
+				iTotalScore += letterScore;
+			}
+		}
+ 
+		iTotalScore *= wordscoremultiplier;
 		return iTotalScore;
-	}
+		}
 
 	@SuppressWarnings("incomplete-switch")
 	private boolean spaceInWord(Board b, eMoveType MoveType, Space minSpace, Space maxSpace) {

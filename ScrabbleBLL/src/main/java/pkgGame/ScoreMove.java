@@ -9,6 +9,7 @@ public class ScoreMove {
 
 	private UUID ScoreMoveID;
 	private ArrayList<ScoreWord> arrScoreWord = new ArrayList<ScoreWord>();
+	public boolean alltilesused = false;
 
 	public ScoreMove() {
 		super();
@@ -26,10 +27,20 @@ public class ScoreMove {
 	public ArrayList<ScoreWord> getArrScoreWord() {
 		return arrScoreWord;
 	}
+	
+	public boolean isalltilesused() {
+		return alltilesused;
+	}
 
 	public int CalculateScoreMove() {
-		//TODO: Calculate Score Move
-		return 0;
+		int totalscore = 0;
+		for(ScoreWord scoreWord : arrScoreWord) {
+			totalscore += scoreWord.getScore();
+		}
+		if (alltilesused) {
+			totalscore += 50;
+		}
+		return totalscore;
 	}
 	
 	public eMoveResult findMoveResult()
