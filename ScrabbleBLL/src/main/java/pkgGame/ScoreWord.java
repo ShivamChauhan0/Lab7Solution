@@ -118,83 +118,79 @@ public class ScoreWord {
 	 */
 	private int CalculateWordScore() {
 		int iTotalScore = 0;
-		int wordscoremultiplier = 1;
-		if (moveType == eMoveType.HORIZONTAL) {
-			int row = minSpace.getRow();
-			int wordLength = word.getWord().length();
-			for (int index = 0; index < wordLength; index++) {
-				int col = minSpace.getCol() + index;
-				Letter letter = new Letter(word.getWord().charAt(index));
-				Space space = board.getPuzzle()[row][col];
-				BonusSquare bonusSquare = space.getBonusSquare();
-				int letterScore = letter.getiScore();
-				if (bonusSquare != null && !bonusSquare.isUsed()) {
-					eBonusType bonusType = bonusSquare.getBonusType();
-					if (bonusType == eBonusType.DoubleLetter) {
-						letterScore *= 2;
-					}
-					if (bonusType == eBonusType.TripleLetter) {
-						letterScore *= 3;
-					}
-					if (bonusType == eBonusType.DoubleWord || bonusType == eBonusType.Star) {
-						wordscoremultiplier *= 2;
-					}
-					if (bonusType == eBonusType.TripleWord) {
-						wordscoremultiplier *= 3;
-					}
-				}
-				iTotalScore += letterScore;
-			}
-		} else {
-			int col = minSpace.getCol();
-			int wordLength = word.getWord().length();
-			for (int index = 0; index < wordLength; index++) {
-				int row = minSpace.getRow() + index;
-				Letter letter = new Letter(word.getWord().charAt(index));
-				Space space = board.getPuzzle()[row][col];
-				BonusSquare bonusSquare = space.getBonusSquare();
-				int letterScore = letter.getiScore();
-				if (bonusSquare != null && !bonusSquare.isUsed()) {
-					eBonusType bonusType = bonusSquare.getBonusType();
-					if (bonusType == eBonusType.DoubleLetter) {
-						letterScore *= 2;
-					}
-					if (bonusType == eBonusType.TripleLetter) {
-						letterScore *= 3;
-					}
-					if (bonusType == eBonusType.DoubleWord || bonusType == eBonusType.Star) {
-						wordscoremultiplier *= 2;
-					}
-					if (bonusType == eBonusType.TripleWord) {
-						wordscoremultiplier *= 3;
-					}
-				}
-				iTotalScore += letterScore;
-			}
-		}
- 
-		iTotalScore *= wordscoremultiplier;
-		return iTotalScore;
-		}
-
-	@SuppressWarnings("incomplete-switch")
-	private boolean spaceInWord(Board b, eMoveType MoveType, Space minSpace, Space maxSpace) {
-
-		switch (MoveType) {
-		case VERTICAL:
-			for (int Row = minSpace.getRow(); Row < maxSpace.getRow(); Row++) {
-				if (FindSpace(b, Row, minSpace.getCol()).getLetter() == null)
-					return true;
-			}
-			break;
-		case HORIZONTAL:
-			for (int Col = minSpace.getCol(); Col < maxSpace.getCol(); Col++) {
-				if (FindSpace(b, minSpace.getRow(), Col).getLetter() == null)
-					return true;
-			}
-			break;
-		}
-		return false;
+        int lengthOfWord = word.getWord().length();
+        int initialRowPosition = minSpace.getRow();
+        int finalRowPosition = maxSpace.getRow();
+        int rowDifference = initialRowPosition – finalRowPosition;
+        if (rowDifferenece == 0) {
+               int lockedSpace = minSpace.getRow();
+               for (int x = 0; x < lengthOfWord; x++) {
+                     int horiz = minSpace.getCol() + x;
+                     Space space = board.getPuzzle()[startingSpace][horiz];
+                     BonusSquare bonusSquare = space.getBonusSquare();
+                     Letter letter = new Letter(word.getWord().charAt(x));
+                     int l = letter.getiScore();
+                     if (bonusSquare.isUsed() != true && bonusSquare != null) {
+                            eBonusType bonusType = bonusSquare.getBonusType();
+                            if (bonusType == eBonusType.DoubleLetter) {
+                                  l = l * 2;
+                            }
+                            if (bonusType == eBonusType.TripleLetter) {
+                                  l = l* 3;
+                            }
+                            iTotalScore += letterScore;
+                     }
+               }
+               for (int x = 0; x < lengthOfWord; x++) {
+                     int horiz = minSpace.getCol() + x;
+                     Space space = board.getPuzzle()[startingSpace][horiz];
+                     BonusSquare bonusSquare = space.getBonusSquare();
+                     if (bonusSquare.isUsed() != true && bonusSquare != null) {
+                            eBonusType bonusType = bonusSquare.getBonusType();
+                            if (bonusType == eBonusType.DoubleWord || bonusType == eBonusType.Star) {
+                                  iTotalScore = iTotalScore * 2;
+                            }
+                            if (bonusType == eBonusType.TripleWord) {
+                                  iTotalScore = iTotalScore * 3;
+                            }
+                     }
+               }
+        } else {
+               int lockedSpace = minSpace.getCol();
+               for (int y = 0; y < lengthOfWord; y++) {
+                     int vert = minSpace.getRow() + y;
+                     Space space = board.getPuzzle()[vert][startingSpace];
+                     BonusSquare bonusSquare = space.getBonusSquare();
+                     Letter letter = new Letter(word.getWord().charAt(y));
+                     int l = letter.getiScore();
+                     if (bonusSquare.isUsed() != true && bonusSquare != null) {
+                            eBonusType bonusType = bonusSquare.getBonusType();
+                            if (bonusType == eBonusType.DoubleLetter) {
+                                  l = l * 2;
+                            }
+                            if (bonusType == eBonusType.TripleLetter) {
+                                  l = l * 3;
+                            }
+                            iTotalScore += letterScore;
+                     }
+               }
+               for (int y = 0; y < lengthOfWord; y++) {
+                     int horiz = minSpace.getCol() + y;
+                     Space space = board.getPuzzle()[vert][ startingSpace];
+                     BonusSquare bonusSquare = space.getBonusSquare();
+                     if (bonusSquare.isUsed() != true && bonusSquare != null) {
+                            eBonusType bonusType = bonusSquare.getBonusType();
+                            if (bonusType == eBonusType.DoubleWord || bonusType == eBonusType.Star) {
+                                  iTotalScore = iTotalScore * 2;
+                            }
+                            if (bonusType == eBonusType.TripleWord) {
+                                  iTotalScore = iTotalScore * 3;
+                            }
+                     }
+               }
+        }
+        return iTotalScore;
+        }
 	}
 
 	private Space FindSpace(Board b, int Row, int Col) {
