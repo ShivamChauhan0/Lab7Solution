@@ -52,7 +52,7 @@ public class ScoreWord {
 
 	private eMoveResult Score() {
 		if (spaceInWord(this.board, this.moveType, this.minSpace, this.maxSpace)) {
-			moveResult = eMoveResult.spaceInWord;
+			moveResult = eMoveResult.SpaceInWord;
 			return moveResult;
 		}
 
@@ -70,10 +70,7 @@ public class ScoreWord {
 
 		return eMoveResult.GoodMove;
 	}
-	private boolean spaceInWord(Board board2, eMoveType moveType2, Space minSpace2, Space maxSpace2) {
-		return false;
-	}
-
+	
 	public ScoreWord(Dictionary Dictionary, ArrayList<Space> Tiles, Board Board, eMoveResult MoveResult) {
 		this.ScoreWordID = UUID.randomUUID();
 		this.dictionary = Dictionary;
