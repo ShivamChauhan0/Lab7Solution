@@ -52,7 +52,7 @@ public class ScoreWord {
 
 	private eMoveResult Score() {
 		if (spaceInWord(this.board, this.moveType, this.minSpace, this.maxSpace)) {
-			moveResult = eMoveResult.SpaceInWord;
+			moveResult = eMoveResult.spaceInWord;
 			return moveResult;
 		}
 
@@ -69,6 +69,9 @@ public class ScoreWord {
 		this.Score = CalculateWordScore();
 
 		return eMoveResult.GoodMove;
+	}
+	private boolean spaceInWord(Board board2, eMoveType moveType2, Space minSpace2, Space maxSpace2) {
+		return false;
 	}
 
 	public ScoreWord(Dictionary Dictionary, ArrayList<Space> Tiles, Board Board, eMoveResult MoveResult) {
@@ -121,8 +124,10 @@ public class ScoreWord {
         int lengthOfWord = word.getWord().length();
         int initialRowPosition = minSpace.getRow();
         int finalRowPosition = maxSpace.getRow();
-        int rowDifference = initialRowPosition – finalRowPosition;
-        if (rowDifferenece == 0) {
+        int rowDifference = initialRowPosition - finalRowPosition;
+        int startingSpace = 0;
+        int letterScore = 0;
+        if (rowDifference == 0) {
                int lockedSpace = minSpace.getRow();
                for (int x = 0; x < lengthOfWord; x++) {
                      int horiz = minSpace.getCol() + x;
@@ -176,6 +181,7 @@ public class ScoreWord {
                }
                for (int y = 0; y < lengthOfWord; y++) {
                      int horiz = minSpace.getCol() + y;
+                     int vert = minSpace.getRow() + y;
                      Space space = board.getPuzzle()[vert][ startingSpace];
                      BonusSquare bonusSquare = space.getBonusSquare();
                      if (bonusSquare.isUsed() != true && bonusSquare != null) {
