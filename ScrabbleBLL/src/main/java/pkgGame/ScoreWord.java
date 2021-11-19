@@ -191,8 +191,7 @@ public class ScoreWord {
         }
         return iTotalScore;
         }
-	}
-
+	
 	private Space FindSpace(Board b, int Row, int Col) {
 		for (Space s : this.tiles) {
 			if (s.getRow() == Row && s.getCol() == Col)
